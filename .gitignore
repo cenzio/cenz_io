@@ -2,4 +2,4 @@
 __pycache__/
 secrets.py
 data/
-
+.DS_Store
