@@ -57,7 +57,7 @@ class MessageQueue(object):
 
 		self.node_count += 1
 
-	def dequeue(self):
+	def dequeue_node(self):
 		"""
 		Dequeue the MessageQueue if there are any message nodes in it
 
@@ -69,14 +69,14 @@ class MessageQueue(object):
 		"""
 		return_node = None
 
-		if head == None:
+		if self.head == None:
 			print("The queue is empty!")
 		else:
 			return_node = self.head
 			self.head = self.head.get_next_node() 
 			self.node_count -= 1
 
-			return return_node
+			return return_node.get_direct_message()
 
 	
 	def get_head(self):

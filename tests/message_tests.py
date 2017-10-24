@@ -1,5 +1,5 @@
 import unittest
-from message import MessageNode, MessageQueue
+from bot.message import MessageNode, MessageQueue
 
 class MessageTests(unittest.TestCase):
 	"""
@@ -42,13 +42,15 @@ class MessageTests(unittest.TestCase):
 		node_data = ["hello", "world", "what is up", "with you today"]
 		nodes = []
 
+		print('')
+		
 		#Load the nodes
 		for data in node_data:
 			nodes.append(MessageNode(data))
 
 		#queue up all the nodes
 		for node in nodes:
-			self.message_queue.enqueu(node)
+			self.message_queue.enqueue_node(node)
 
 		#Test whether the head of the queue is the correct head
 		self.assertEqual(nodes[0], self.message_queue.get_head())
@@ -60,7 +62,8 @@ class MessageTests(unittest.TestCase):
 
 		#test whether the queue dequeus all nodes in the correct order
 		for i in range(len(nodes)):
-			self.assertEqual(nodes[i], self.message_queue.dequeu())
+			self.assertEqual(nodes[i].get_direct_message(), self.message_queue.dequeue_node())
+			print("Queue returned node containing " + nodes[i].get_direct_message() + " as expected.")
 
 if __name__ == '__main__':
 	unittest.main()
