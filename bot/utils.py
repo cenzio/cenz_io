@@ -5,9 +5,6 @@ Modules containing utils that for retrieving info for the bots
 def get_last_dm_id():
 	"""
 	Retrieves the last checked dm 
-
-	Returns:
-		integer id of the last checked dm
 	"""
 
 	#Open the file for reading, read the id, and then close it
@@ -23,9 +20,6 @@ def write_last_dm_id(id_file, id):
 	
 	Params:
 		id - ID of the last direct message checked by 
-
-	Returns:
-		Nothing
 	"""
 
 	last_dm_file = open(id_file, 'w')

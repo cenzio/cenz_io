@@ -111,15 +111,3 @@ class Bot(object):
 		"""
 		write_last_dm_id(self.last_checked_message)
 		self.bot_running = False
-
-class BotManager(object):
-	"""
-	Data structure to allow multiple bots to be run in the same program
-	"""
-	def __init__(self, bots=None):
-		self.bots = []
-		
-		#If there are any bots provided as a parameter 
-		if bots is not None:
-			for bot in bots:
-				self.bots.append(bot)
