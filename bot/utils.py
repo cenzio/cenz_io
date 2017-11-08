@@ -2,13 +2,13 @@
 Modules containing utils that for retrieving info for the bots
 """
 
-def get_last_dm_id():
+def get_last_dm_id(id_file):
 	"""
 	Retrieves the last checked dm 
 	"""
 
 	#Open the file for reading, read the id, and then close it
-	last_dm_file = open('data/last.txt', 'r')
+	last_dm_file = open(id_file, 'r')
 	id = last_dm_file.readline()
 	last_dm_file.close()
 
