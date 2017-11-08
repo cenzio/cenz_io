@@ -11,7 +11,7 @@ class Command(object):
 		self.command_name = '!' + command_name
 		Command.commands[self.command_name] = self
 
-	def execute(self, api, recipient, command_args=None):
+	def execute(self, command_args=None):
 		"""
 		Execute the command
 		
@@ -55,14 +55,14 @@ class HelloWorldCommand(Command):
 	def __init__(self):
 		Command.__init__(self, 'hello')
 
-	def execute(self, api, recipient, command_args=None):
+	def execute(self, command_args=None):
 		"""
 		Send "Hello world" to the user
 		"""
-		api.send(recipient, text="Hello, world! Did I do good?")
+		return "Hello, world!"
 
 	def help(self):
-		return self.command_name + " - Returns a friendly hello world message"
+		return self.command_name + " - Returns the classic hello world message"
 
 class AboutCommand(Command):
 	"""
@@ -73,34 +73,12 @@ class AboutCommand(Command):
 	def __init__(self):
 		Command.__init__(self, 'about')
 
-	def execute(self, api, recipient, command_args=None):
+	def execute(self, command_args=None):
 		"""
 		Send information about the twitter account running the
 		cenz_io bot. Implmentation may change on a bot to bot basis
 
 		Read Command for param and return info
-		"""
-
-		bot_info = self._get_bot_info(api.me())
-		api.send_direct_message(recipient, text=bot_info)
-		
-	
-	def help(self, api, recipient):
-		"""
-		Return help info about the about command
-		"""
-		return self.command_name + " - Returns information about the twitter account"\
-			   + "Running the cenz_io bot"
-		
-	def _get_bot_info(self, user):
-		"""
-		Get information about the twitter account running this bot
-		
-		Params:
-			user - Twitter User object
-
-		Returns:
-			information about the bot as a string
 		"""
 		info_list = []
 		
@@ -113,7 +91,15 @@ class AboutCommand(Command):
 		info_list.append('Version: cenz_io-v1.0')
 		
 		return "".join(info_list)
-
+		
+	
+	def help(self):
+		"""
+		Return help info about the about command
+		"""
+		return self.command_name + " - Returns information about the twitter account"\
+			   + "Running the cenz_io bot"
+		
 class HelpCommand(Command):
 	"""
 	Sends help information to users about all/specific commands
@@ -122,20 +108,19 @@ class HelpCommand(Command):
 	def __init__(self):
 		Command.__init__(self, 'help')
 
-	def execute(self, api, recipient, command_args=None):
+	def execute(self, command_args=None):
 		"""
 		Get the help strings from all commands are specific commands
 
 		Read Command for param and return info
 		"""
 		if command_args == None:
-			all_commands_help = ""
+			all_commands_help = []
 			
-
 			for command in Command.commands:
-				all_commands_help += command.help() + "\n"
+				all_commands_help.append(command.help() + "\n")
 			
-			api.send_direct_message(recipient, text=all_commands_help)
+			return "".join(all_commands_help)
 		
 		else:
 			specific_commands_help = ""
@@ -146,16 +131,29 @@ class HelpCommand(Command):
 				else:
 					specific_commands_help += command + "isn't a valid command"
 
-			api.send_direct_message(recipient, text=specific_commands_help)
+			return specific_commands_help
 
-	def help():
+	def help(self):
 		return self.command_name + " - Returns information about commands the bot can use"
+
+class ErrorCommand(Command):
+	"""
+	Called when a 
+	"""
+	def __init__(self):
+		Command.__init__(self, "error")
+
+	def execute(self, command_args=None):
+		return "Error, either the command you entered was invalid or something went wrong."
+
+	def help(self):
+		return self.command_name + " - Only returned when an error is run into or you've entered the wrong command"
 
 class ShutdownCommand(Command):
 
 	def __init__(self):
 		Command.__init__(self, 'shutdown')
 
-	def execute(self, api, recipient, command_args=None):
+	def execute(self, command_args=None):
 		pass
 
