@@ -30,35 +30,38 @@ class Bot(object):
 			last_checked_message: id of the last dm received
 		"""
 
+		#Authenticate with the twitter api
 		self.config = load_config(config_file)
 		auth = tweepy.OAuthHandler(self.config["CONSUMER_KEY"],
 								   self.config["CONSUMER_SECRET"])
-
 		auth.set_access_token(self.config["ACCESS_TOKEN"], 
 							  self.config["ACCESS_TOKEN_SECRET"])
+		
 
-		#Initaliaze api, the commands, and the bot
-		api = tweepy.API(auth)
-
+		self.api = tweepy.API(auth)
 		self.bot_running = True
-		self.api = api
-
 		self.commands = commands
-		self.last_checked_message = 0
 		self.message_queue = MessageQueue()
+		self.last_checked_message = get_last_dm_id(self.config["LAST_ID"])
+
+	def is_running(self):
+		return self.bot_running
 
 	def get_direct_messages(self):
 		"""
 		Retrieve all direct messages and throw them into the bots
 		message queue
+
+		Returns:
+			A list of DirectMessage objects
 		"""
 		try:
 			direct_messages = self.api.direct_messages(since_id=self.last_checked_message)
-
 			for message in direct_messages:
 				self.message_queue.enqueue_node(Node(message))
-				self.last_checked_message  = message.id
+				self.last_checked_message = message.id
 
+			return direct_message
 		except RateLimitError as e:
 			print(e)
 			
@@ -67,14 +70,22 @@ class Bot(object):
 		Reply to direct messages and execute commands
 		"""
 		if self.commands != None:
+			messages_sent = []
 			try:
 				while self.message_queue.get_node_count() > 0:
 					current_message = self.message_queue.dequeu_node()
+					command = current_message.text.split()
+					
+					command_output = ""
+					if command[0] in self.commands:
+						command_outpu = commands[command[0]].execute(commands[1:])
+					else:
+						command_output = commands['!error'].execute()
+
 			except RateLimitError as e:
 				print(e)
 		else:
 			print("This bot doesn't have any commands to execute")
-
 
 	def create_status(self, text):
 		"""
@@ -82,32 +93,29 @@ class Bot(object):
 
 		Params:
 			text - text to be used for the status of the bot
-		
-		Returns:
-			Void
 		"""
-		self.api.update_status(text)
+		return self.api.update_status(text)
 
 	def send_message(self, recipient, message):
 		"""
 		Send a direct message from the bot to a specific recipient
 		
-		params:
+		Params:
 			recipient - The twitter id or screenname of the person to message
 			message - the message to send to the recipient
-
-		Returns:
-			void
 		"""
-		self.api.send_direct_message(recipient, text=message)
+		return self.api.send_direct_message(recipient, text=message)
+
+
+	def update_profile_image(self, filename):
+		"""
+		Update the bots profile picture
+		"""
+		self.api.update_profile_image(filename)
 
 	def shutdown(self):
 		"""
 		Shutdown the bot
-
-		Returns:
-			True if the bot shut downs gracefully
-			False if the bot runs into an error shutting down
 		"""
-		write_last_dm_id(self.last_checked_message)
+		write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
 		self.bot_running = False
