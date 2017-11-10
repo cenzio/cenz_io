@@ -138,7 +138,7 @@ class HelpCommand(Command):
 
 class ErrorCommand(Command):
 	"""
-	Called when a 
+	Called when an invalid command is called
 	"""
 	def __init__(self):
 		Command.__init__(self, "error")
