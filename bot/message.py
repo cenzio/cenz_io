@@ -65,7 +65,8 @@ class MessageQueue(object):
 			None
 
 		Returns:
-			The first MessageNode in the queue
+			Returns the diret message and removes the the current head from
+			the queue.
 		"""
 		return_node = None
 
