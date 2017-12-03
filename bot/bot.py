@@ -214,7 +214,7 @@ class Bot(object):
 		message queue
 
 		Returns:
-			A list of direct message objects received from the bot
+			(list)direct_messages: A list of direct message objects received from the bot
 		"""
 		if self.receiving_commands:
 			try:
@@ -233,9 +233,16 @@ class Bot(object):
 			print("Not receiving commands")
 			
 	def execute_commands(self):
+		"""
+		Execute commands sent to the bot from a user
+
+		Returns:
+			(list)executed_commands: list of Message twitter objects sent by the bot
+		"""
 		executed_commands = []
 
 		try:
+			
 			while self.message_queue.get_node_count() != 0:
 				current_message = self.message_queue.dequeue_node()
 				user = current_message.screen_name
@@ -260,7 +267,7 @@ class Bot(object):
 
 				executed_commands.append(self.send_message(user, command_output))
 
-			return execetued_commands
+			return executed_commands
 
 		except RateLimitError as rate:
 			self._print_error(rate)
