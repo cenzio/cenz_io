@@ -17,6 +17,9 @@ class CommandTests(unittest.TestCase):
 		print("Hello world command works")
 
 	def test_about_command(self):
+		"""
+		Test the about command
+		"""
 		output = self.bot.about_command()
 
 		api = self.bot.get_api()
