@@ -1,4 +1,5 @@
 import unittest
+from logger import Logger
 from bot.bot import Bot
 
 class CommandTests(unittest.TestCase):
@@ -7,14 +8,14 @@ class CommandTests(unittest.TestCase):
 	"""
 	def setUp(self):
 		self.bot= Bot('data/bot_config.txt')
-
+		
 	def test_hello_world(self):
 		"""
 		Test the hello world command
 		"""
 		output = self.bot.hello_command()
 		self.assertEqual(output, "Hello, world!")
-		print("Hello world command works")
+		Logger
 
 	def test_about_command(self):
 		"""
@@ -22,8 +23,7 @@ class CommandTests(unittest.TestCase):
 		"""
 		output = self.bot.about_command()
 
-		api = self.bot.get_api()
-		bot_info = api.me()
+		api = self.bot.get_me()
 
 		info_list = []
 		info_list.append('Name: ' + str(bot_info.screen_name) +'\n')
