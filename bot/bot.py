@@ -253,6 +253,8 @@ class Bot(object):
 						command_output = self.hello_command()
 					elif command == "!8ball":
 						command_output = self.eightball_command()
+					elif command == "!about":
+						command_output = self.about_command()
 					else:
 						command_output = "Sorry, I do not have that have command or you mispelled it :("
 
@@ -288,7 +290,7 @@ class Bot(object):
 		Returns:
 			Direct message object
 		"""
-		self._printf_info("Sending message to:" + recipient + "containing the text")
+		self._print_info("Sending message to:" + recipient + "containing the text")
 		return self.api.send_direct_message(recipient, text=message)
 	
 	def update_profile_image(self, filename):
