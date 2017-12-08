@@ -35,6 +35,25 @@ class CommandTests(unittest.TestCase):
 		self.assertEqual(output, "".join(info_list))
 		print("About command works")
 
+	def test_help_command(self):
+		"""
+		Test out all the commands inside the twitter bot
+		"""
+		all_command_intro = "Here are all the commands that I have:\n"
+		command_help = ["!hello - Returns a simple hello world!\n",
+					 	"!about - Returns information about the bot.\n",
+					 	"!8ball - Returns a accurate predictions from the magical 8ball\n"]
+		command_help_string = all_command_intro + "".join(command_help)
+		
+		all_help = self.bot.help_command()
+		self.assertEqual(all_help, command_help_string)
+		print("Calling the help command without a parameter works")
 
+		index = 0
+		for command in ['!hello', '!about', '!8ball']:
+			self.assertEqual(self.bot.help_command(command), command_help[index])
+			index += 1
+		print("Calling the help command with a parameter works")
+		
 if __name__ == '__main__':
 	unittest.main()
