@@ -186,17 +186,17 @@ class TwitterBot(object):
 		"""
 		Returns information on how to use non privileged bot commands
 		"""
-		help_dict = {"!hello":"- Returns a simple hello world!",
-					 "!about":"- Returns information about the bot.",
-					 "!8ball":"- Returns a accurate predictions from the magical 8ball"}
+		help_dict = {"!hello":" - Returns a simple hello world!",
+					 "!about":" - Returns information about the bot.",
+					 "!8ball":" - Returns a accurate predictions from the magical 8ball"}
 		
 		help_string = []
 		
 		if len(args) == 0:
 			help_string.append("Here are all the commands that I have:\n")
 			
-			for command_name in help_dict.keys():
-				help_string.append(command_name + help_dict[command_names] + "\n")
+			for command in help_dict.keys():
+				help_string.append(command+ help_dict[command] + "\n")
 
 			return "".join(help_string)
 		else:
