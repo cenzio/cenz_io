@@ -9,7 +9,7 @@ import time
 from random import randint
 from bot.message import MessageNode, MessageQueue
 
-class Bot(object):
+class TwitterBot(object):
 	"""
 	Twitter bot that will be used to receive and act on commands
 	You can create multiple bots if you'd like but there is no support
@@ -43,7 +43,7 @@ class Bot(object):
 			                  self.config["ACCESS_TOKEN_SECRET"])
 		
 		#setup debug mode if set to true in config
-		if self.config["DEBUG"] == "True":
+		if self.config["DEBUG_MODE"] == "True":
 			self.debug_mode = True
 		else:
 			self.debug_mode = False
@@ -61,11 +61,11 @@ class Bot(object):
 		else:
 			self.command_mode = False
 
-		self._print_info("Config is up")
 		self._print_info("Debug mode set to true")
+		self._print_info("Config is up")
 		self._print_info("tweepy API and bot identity setup")
-		self._print_info("receiving commands:" + self.receiving_commands)
-		self._print_info("verified_users are:" + ",".join(verfied_users))
+		self._print_info("command_mode is:" + str(self.command_mode))
+		self._print_info("verified_users are:" + ",".join(self.verified_users))
 
 	def _get_last_dm_id(self):
 		"""
@@ -123,14 +123,14 @@ class Bot(object):
 		Print info if debug mode is on
 		"""
 		if self.debug_mode:
-			print("[" + self.me.screenname + "]" + "[INFO]" + message)
+			print("[" + self.me.screen_name + "]" + "[INFO]" + message)
 	
 	def _print_error(self, message):
 		"""
 		print errors if debug mode is on
 		"""
 		if self.debug_mode:
-			print("[" + self.me.screenname + "]" + "[ERROR]" + message)
+			print("[" + self.me.screen_name + "]" + "[ERROR]" + message)
 
 	def hello_command(self):
 		"""
@@ -216,7 +216,7 @@ class Bot(object):
 		Returns:
 			(list)direct_messages: A list of direct message objects received from the bot
 		"""
-		if self.receiving_commands:
+		if self.command_mode:
 			try:
 				direct_messages = self.api.direct_messages(since_id=self.last_checked_message)
 				
