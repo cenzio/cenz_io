@@ -296,6 +296,7 @@ class TwitterBot(object):
 		Returns:
 			Status object
 		"""
+		self._print_info("deleted status with the id of:" + str(s_id))
 		return self.api.destroy_status(s_id)
 	
 	def get_status(self, s_id):
@@ -308,6 +309,7 @@ class TwitterBot(object):
 		Returns:
 			Status object
 		"""
+		self._print_info("Retrieved status with the id of:" + str(s_id))
 		return self.api.get_status(s_id)
 
 	def retweet(self, s_id):
@@ -320,6 +322,7 @@ class TwitterBot(object):
 		Returns:
 			Status object
 		"""
+		self._print_info("Retweeted tweet with the id of:" + str(s_id))
 		return self.api.retweet(s_id)
 
 	def send_message(self, recipient, message):
