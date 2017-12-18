@@ -285,6 +285,12 @@ class TwitterBot(object):
 		"""
 		self._print_info("Posting status:" + text)
 		return self.api.update_status(text)
+	
+	def get_status(self, s_id):
+		"""
+		Get a status by id
+		"""
+		return self.api.get_status(s_id)
 
 	def send_message(self, recipient, message):
 		"""
@@ -314,12 +320,15 @@ class TwitterBot(object):
 		self._print_info("Updated prorfile picture")
 		return self.api.update_profile_image(filename)
 	
+	@property
 	def get_api(self):
 		return self.api
 
+	@property
 	def get_me(self):
 		return self.me
 
+	@property
 	def is_running(self):
 		return self.bot_running
 
