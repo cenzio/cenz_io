@@ -310,6 +310,18 @@ class TwitterBot(object):
 		"""
 		return self.api.get_status(s_id)
 
+	def retweet(self, s_id):
+		"""
+		Retweet a tweet by id
+
+		Params:
+			s_id - Id of the tweet to retweet
+
+		Returns:
+			Status object
+		"""
+		return self.api.retweet(s_id)
+
 	def send_message(self, recipient, message):
 		"""
 		Send a direct message from the bot to a specific recipient
