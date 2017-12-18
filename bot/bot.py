@@ -286,9 +286,27 @@ class TwitterBot(object):
 		self._print_info("Posting status:" + text)
 		return self.api.update_status(text)
 	
+	def delete_status(self, s_id):
+		"""
+		Delete a status by id
+
+		Params:
+			s_id - Id of the status to delete
+
+		Returns:
+			Status object
+		"""
+		return self.api.destroy_status(s_id)
+	
 	def get_status(self, s_id):
 		"""
 		Get a status by id
+
+		Params:
+			s_id - Id of the status to retrieve
+
+		Returns:
+			Status object
 		"""
 		return self.api.get_status(s_id)
 
