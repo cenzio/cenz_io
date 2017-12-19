@@ -119,16 +119,10 @@ class TwitterBot(object):
 		return config_dict
 
 	def _print_info(self, message):
-		"""
-		Print info if debug mode is on
-		"""
 		if self.debug_mode:
 			print("[" + self.me.screen_name + "]" + "[INFO]" + message)
 	
 	def _print_error(self, message):
-		"""
-		print errors if debug mode is on
-		"""
 		if self.debug_mode:
 			print("[" + self.me.screen_name + "]" + "[ERROR]" + message)
 
@@ -353,6 +347,14 @@ class TwitterBot(object):
 		self._print_info("Updated prorfile picture")
 		return self.api.update_profile_image(filename)
 	
+	def shutdown(self):
+		"""
+		Shutdown the bot
+		"""
+		self._write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
+		self.bot_running = False
+		self._print_info("Bot is now shutting down")
+
 	@property
 	def get_api(self):
 		return self.api
@@ -365,10 +367,8 @@ class TwitterBot(object):
 	def is_running(self):
 		return self.bot_running
 
-	def shutdown(self):
-		"""
-		Shutdown the bot
-		"""
-		self._write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
-		self.bot_running = False
-		self._print_info("Bot is now shutting down")
+	@property
+	def is_debug(self):
+		return self.debug
+
+	
