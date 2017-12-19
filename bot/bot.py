@@ -69,8 +69,6 @@ class TwitterBot(object):
 
 	def _get_last_dm_id(self):
 		"""
-		Retrieves the last checked dm 
-
 		Return:
 			(int) dm_id - integer ID of the last dm received
 		"""
@@ -86,8 +84,6 @@ class TwitterBot(object):
 
 	def _write_last_dm_id(self, id):
 		"""
-		Overwrite the last received dm id to a txt file
-		
 		Params:
 			(int) id - ID of the last direct message checked by 
 		"""
@@ -101,8 +97,6 @@ class TwitterBot(object):
 		
 	def _load_config(self, config_name):
 		"""
-		Load the bot's config file
-
 		Return:
 			(dict) config_dict - dictionary containing configuration info
 		"""
@@ -127,9 +121,6 @@ class TwitterBot(object):
 			print("[" + self.me.screen_name + "]" + "[ERROR]" + message)
 
 	def hello_command(self):
-		"""
-		Return a simple hello world to the user
-		"""
 		return "Hello, world!"
 
 	def about_command(self):
@@ -150,9 +141,6 @@ class TwitterBot(object):
 		return "".join(info_list)
 	
 	def eightball_command(self):
-		"""
-		Return a quote from the magical 8ball
-		"""
 		quotes = ["It is certain",
 				  "It is decidedly so",
 			      "Without a doubt",
@@ -269,8 +257,6 @@ class TwitterBot(object):
 
 	def create_status(self, text):
 		"""
-		Update the status of the bot's twitter account
-
 		Params:
 			text - text to be used for the status of the bot
 
@@ -282,8 +268,6 @@ class TwitterBot(object):
 	
 	def delete_status(self, s_id):
 		"""
-		Delete a status by id
-
 		Params:
 			s_id - Id of the status to delete
 
@@ -308,8 +292,6 @@ class TwitterBot(object):
 
 	def retweet(self, s_id):
 		"""
-		Retweet a tweet by id
-
 		Params:
 			s_id - Id of the tweet to retweet
 
@@ -321,8 +303,6 @@ class TwitterBot(object):
 
 	def send_message(self, recipient, message):
 		"""
-		Send a direct message from the bot to a specific recipient
-		
 		Params:
 			recipient - The twitter id or screenname of the person to message
 			message - the message to send to the recipient
@@ -335,8 +315,6 @@ class TwitterBot(object):
 	
 	def update_profile_image(self, filename):
 		"""
-		Update the bots profile picture
-
 		Params:
 			filename - the path + name of the file you'd like to change
 			           the profile picture to
@@ -348,9 +326,6 @@ class TwitterBot(object):
 		return self.api.update_profile_image(filename)
 	
 	def shutdown(self):
-		"""
-		Shutdown the bot
-		"""
 		self._write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
 		self.bot_running = False
 		self._print_info("Bot is now shutting down")
