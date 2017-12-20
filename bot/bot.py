@@ -64,7 +64,23 @@ class TwitterBot(object):
 		self._print_info("tweepy API and bot identity setup")
 		self._print_info("command_mode is:" + str(self.command_mode))
 		self._print_info("verified_users are:" + ",".join(self.verified_users))
+	
+	@property
+	def get_api(self):
+		return self.api
 
+	@property
+	def get_me(self):
+		return self.me
+
+	@property
+	def is_running(self):
+		return self.bot_running
+
+	@property
+	def is_debug(self):
+		return self.debug
+		
 	def _get_last_dm_id(self):
 		"""
 		Return:
@@ -344,21 +360,3 @@ class TwitterBot(object):
 		self._write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
 		self.bot_running = False
 		self._print_info("Bot is now shutting down")
-
-	@property
-	def get_api(self):
-		return self.api
-
-	@property
-	def get_me(self):
-		return self.me
-
-	@property
-	def is_running(self):
-		return self.bot_running
-
-	@property
-	def is_debug(self):
-		return self.debug
-
-	
