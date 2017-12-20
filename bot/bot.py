@@ -35,6 +35,11 @@ class TwitterBot(object):
 		self.bot_running = True
 		self.config = self._load_config(config_file)
 		
+		#setup debug mode if set to true in config
+		if self.config["DEBUG_MODE"] == "True":
+			self.debug_mode = True
+		else:
+			self.debug_mode = False
 
 		auth = tweepy.OAuthHandler(self.config["CONSUMER_KEY"],
 			                       self.config["CONSUMER_SECRET"])
@@ -42,13 +47,6 @@ class TwitterBot(object):
 		auth.set_access_token(self.config["ACCESS_TOKEN"], 
 			                  self.config["ACCESS_TOKEN_SECRET"])
 		
-		#setup debug mode if set to true in config
-		if self.config["DEBUG_MODE"] == "True":
-			self.debug_mode = True
-		else:
-			self.debug_mode = False
-
-
 		self.api = tweepy.API(auth)
 		self.me = self.api.me()
 		self.message_queue = MessageQueue()
