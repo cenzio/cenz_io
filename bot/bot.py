@@ -213,7 +213,40 @@ class TwitterBot(object):
 				self._print_error(rate)
 		else:
 			print("Not receiving commands")
-			
+	
+	def _get_next_message(self):
+		current_message = self.message_queue.dequeue_node()
+		user = current_message.screen_name	
+		
+		return (user, current_message.text.split())
+
+	def _execute_command(self, command_name, command_input):
+		"""
+		Params:
+			(str)command_name: command to execute
+			(str)command_input: command input
+
+		Returns:
+			(str)command_output: Output of the command
+		"""
+		command_output = ""
+
+		if not command_input[0].startswith('!'):
+			command_output = "I'm sorry, I only accept commands, which start with ! :("
+		else:
+			if command == "!help":
+				command_output =  self.help_command(user_message[1:])
+			elif command == "!hello":
+				command_output = self.hello_command()
+			elif command == "!8ball":
+				command_output = self.eightball_command()
+			elif command == "!about":
+				command_output = self.about_command()
+			else:
+				command_output = "Sorry, I do not have that have command or you mispelled it :("
+
+		return command_output
+
 	def execute_commands(self):
 		"""
 		Execute commands sent to the bot from a user
@@ -226,28 +259,12 @@ class TwitterBot(object):
 		try:
 			
 			while self.message_queue.get_node_count() != 0:
-				current_message = self.message_queue.dequeue_node()
-				user = current_message.screen_name
+				user, user_message = self._get_next_message()
 				
-				user_message = current_message.text.split()
 				command = user_message[0].lower()
-				command_output = ""
+				output = self._execute_command(command, command[1:])
 
-				if not command_input[0].startswith('!'):
-					command_output = "I'm sorry, I only accept commands, which start with ! :("
-				else:
-					if command == "!help":
-						command_output =  self.help_command(user_message[1:])
-					elif command == "!hello":
-						command_output = self.hello_command()
-					elif command == "!8ball":
-						command_output = self.eightball_command()
-					elif command == "!about":
-						command_output = self.about_command()
-					else:
-						command_output = "Sorry, I do not have that have command or you mispelled it :("
-
-				executed_commands.append(self.send_message(user, command_output))
+				executed_commands.append(self.send_message(user, output))
 
 			return executed_commands
 
