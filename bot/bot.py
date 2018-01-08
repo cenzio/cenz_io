@@ -80,7 +80,7 @@ class TwitterBot(object):
 	@property
 	def is_debug(self):
 		return self.debug
-		
+
 	def _get_last_dm_id(self):
 		"""
 		Return:
@@ -96,15 +96,15 @@ class TwitterBot(object):
 		
 		return dm_id 
 
-	def _write_last_dm_id(self, id):
+	def _write_last_dm_id(self, t_id):
 		"""
 		Params:
-			(int) id - ID of the last direct message checked by 
+			(int) t_id - ID of the last direct message checked by 
 		"""
 		self._print_info("Writing the last dm received to file")
 		
 		last_dm_file = open(self.config["ID_FILE"], 'w')
-		last_dm_file.write(id)
+		last_dm_file.write(t_id)
 		last_dm_file.close()
 		
 		self._print_info("Finished writing dm id to " + self.config["ID_FILE"])
@@ -357,6 +357,8 @@ class TwitterBot(object):
 		return self.api.update_profile_image(filename)
 	
 	def shutdown(self):
-		self._write_last_dm_id(self.config["LAST_ID"], self.last_checked_message)
+		if self.config["COMMAND_MODE"]:
+			self._write_last_dm_id(self.last_checked_message)
+		
 		self.bot_running = False
 		self._print_info("Bot is now shutting down")
